@@ -25,12 +25,12 @@ export default function SettingsPage() {
               <Input
                 id="setting-email"
                 type="email"
-                defaultValue="minjun@relato.kr"
+                defaultValue="minjun@relog.kr"
               />
             </div>
             <div className="flex flex-col gap-2">
               <Label htmlFor="setting-company">회사명</Label>
-              <Input id="setting-company" defaultValue="Relato Inc." />
+              <Input id="setting-company" defaultValue="Relog Inc." />
             </div>
             <Button className="w-fit">저장</Button>
           </div>

@@ -24,7 +24,7 @@ export default function LoginPage() {
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
           <Link href="/" className="text-2xl font-bold tracking-tight text-foreground">
-            Relato
+            Relog
           </Link>
           <p className="mt-2 text-sm text-muted-foreground">
             계정에 로그인하세요

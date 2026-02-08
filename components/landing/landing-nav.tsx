@@ -6,7 +6,7 @@ export function LandingNav() {
     <header className="fixed top-0 z-50 w-full border-b border-border/60 bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
         <Link href="/" className="text-xl font-bold tracking-tight text-foreground">
-          Relato
+          Relog
         </Link>
         <nav className="flex items-center gap-2">
           <Button asChild variant="ghost" size="sm">

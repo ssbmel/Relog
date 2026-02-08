@@ -19,7 +19,7 @@ export function AppSidebar() {
     <aside className="flex h-screen w-60 flex-col border-r border-border bg-sidebar">
       <div className="flex h-16 items-center border-b border-sidebar-border px-6">
         <Link href="/dashboard" className="text-lg font-bold tracking-tight text-sidebar-foreground">
-          Relato
+          Relog
         </Link>
       </div>
       <nav className="flex-1 px-3 py-4">
@@ -55,7 +55,7 @@ export function AppSidebar() {
           </div>
           <div className="flex flex-col">
             <span className="text-sm font-medium text-sidebar-foreground">김민준</span>
-            <span className="text-xs text-muted-foreground">minjun@relato.kr</span>
+            <span className="text-xs text-muted-foreground">minjun@relog.kr</span>
           </div>
         </div>
       </div>

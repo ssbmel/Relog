@@ -25,7 +25,7 @@ export default function SignupPage() {
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
           <Link href="/" className="text-2xl font-bold tracking-tight text-foreground">
-            Relato
+            Relog
           </Link>
           <p className="mt-2 text-sm text-muted-foreground">
             새 계정을 만들어보세요
