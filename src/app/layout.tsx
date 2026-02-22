@@ -1,3 +1,4 @@
+import { SupabaseHashCatcher } from '@/src/components/supabase-hash-catcher'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import React from "react"
@@ -17,8 +18,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="ko">
-      <body className="font-sans antialiased">{children}</body>
+    <html lang="ko" suppressHydrationWarning>
+      <body className="font-sans antialiased" suppressHydrationWarning>
+        <SupabaseHashCatcher />
+        {children}
+      </body>
     </html>
   )
 }
