@@ -12,8 +12,20 @@ const navItems = [
   { href: "/dashboard/settings", label: "Settings", icon: Settings },
 ];
 
-export function AppSidebar() {
+interface AppSidebarProps {
+  user?: {
+    name: string;
+    email: string;
+  } | null;
+}
+
+export function AppSidebar({ user }: AppSidebarProps) {
   const pathname = usePathname();
+
+  const name = user?.name || "사용자";
+  const email = user?.email || "user@example.com";
+  // 첫 글자 추출 (한글/영문 모두 가능)
+  const initial = name.charAt(0) || "U";
 
   return (
     <aside className="flex h-screen w-60 flex-col border-r border-border bg-sidebar">
@@ -54,14 +66,14 @@ export function AppSidebar() {
       <div className="border-t border-sidebar-border px-4 py-4">
         <div className="flex items-center gap-3">
           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-foreground">
-            김
+            {initial}
           </div>
           <div className="flex flex-col">
             <span className="text-sm font-medium text-sidebar-foreground">
-              김민준
+              {name}
             </span>
             <span className="text-xs text-muted-foreground">
-              minjun@relog.kr
+              {email}
             </span>
           </div>
         </div>

@@ -21,7 +21,14 @@ export async function signup(formData: FormData): Promise<{ error?: string } | v
 
   if (error) {
     console.error("Signup server action error:", error);
-    return { error: "회원가입에 실패했습니다." };
+    
+    // 이메일 발송 제한 에러 처리
+    if (error.status === 429) {
+      return { error: "이메일 발송 제한(시간당 약 3회)을 초과했습니다. 1시간 뒤 다시 시도하거나, Supabase 대시보드에서 'Confirm email' 옵션을 꺼주세요." };
+    }
+    
+    // 에러 원인을 더 명확하게 파악하기 위해 실제 에러 메시지를 함께 반환합니다.
+    return { error: `회원가입에 실패했습니다: ${error.message}` };
   }
 
   revalidatePath("/", "layout");
