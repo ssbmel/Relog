@@ -3,7 +3,7 @@
 import { createClient } from '@/src/utils/supabase/server';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { login } from '../../services/login';
+import { login } from '../services/login';
 
 export async function LoginAction(
   formData: FormData,

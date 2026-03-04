@@ -1,9 +1,11 @@
-import SignUp from '@/src/features/signup/components';
-
-export default function SignupPage() {
+export default function AuthLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-secondary/30 px-4">
-      <SignUp />
+      {children}
     </div>
   );
 }

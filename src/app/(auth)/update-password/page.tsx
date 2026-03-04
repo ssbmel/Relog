@@ -1,27 +1,33 @@
-"use client";
+'use client';
 
-import { Button } from "@/src/components/ui/button";
-import { Input } from "@/src/components/ui/input";
-import { Label } from "@radix-ui/react-label";
-import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
-import { updatePassword } from "./actions";
+import { Button } from '@/src/components/ui/button';
+import { Input } from '@/src/components/ui/input';
+import { updatePasswordAction } from '@/src/features/auth/actions/update.password';
+import { Label } from '@radix-ui/react-label';
+import { useRouter } from 'next/navigation';
+import { useState, useTransition } from 'react';
 
 export default function UpdatePasswordPage() {
   const router = useRouter();
-  const [message, setMessage] = useState<{ text: string; type: "error" | "success" } | null>(null);
+  const [message, setMessage] = useState<{
+    text: string;
+    type: 'error' | 'success';
+  } | null>(null);
   const [isPending, startTransition] = useTransition();
 
   const handleSubmit = async (formData: FormData) => {
     setMessage(null);
     startTransition(async () => {
-      const result = await updatePassword(formData);
+      const result = await updatePasswordAction(formData);
       if (result?.error) {
-        setMessage({ text: result.error, type: "error" });
+        setMessage({ text: result.error, type: 'error' });
       } else if (result?.success) {
-        setMessage({ text: "비밀번호가 성공적으로 변경되었습니다. 대시보드로 이동합니다...", type: "success" });
+        setMessage({
+          text: '비밀번호가 성공적으로 변경되었습니다. 대시보드로 이동합니다...',
+          type: 'success',
+        });
         setTimeout(() => {
-          router.push("/dashboard");
+          router.push('/dashboard');
         }, 1500);
       }
     });
@@ -41,7 +47,9 @@ export default function UpdatePasswordPage() {
         <div className="rounded-xl border border-border bg-card p-8 shadow-sm">
           <form action={handleSubmit} className="flex flex-col gap-5">
             {message && (
-              <div className={`rounded-md p-3 text-sm font-medium text-center break-keep ${message.type === 'error' ? 'bg-destructive/15 text-destructive' : 'bg-primary/15 text-primary'}`}>
+              <div
+                className={`rounded-md p-3 text-sm font-medium text-center break-keep ${message.type === 'error' ? 'bg-destructive/15 text-destructive' : 'bg-primary/15 text-primary'}`}
+              >
                 {message.text}
               </div>
             )}
@@ -67,8 +75,12 @@ export default function UpdatePasswordPage() {
                 minLength={6}
               />
             </div>
-            <Button type="submit" className="mt-1 w-full" disabled={isPending || message?.type === 'success'}>
-              {isPending ? "변경 중..." : "비밀번호 변경하기"}
+            <Button
+              type="submit"
+              className="mt-1 w-full"
+              disabled={isPending || message?.type === 'success'}
+            >
+              {isPending ? '변경 중...' : '비밀번호 변경하기'}
             </Button>
           </form>
         </div>
