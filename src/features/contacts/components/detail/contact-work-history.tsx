@@ -1,4 +1,8 @@
+'use client';
+
+import { useState } from 'react';
 import { IWork } from '@/src/types/works';
+import { WorkDetailModal } from '@/src/features/works/components/work-detail-modal';
 
 interface IContactWorkHistoryProps {
   contactWorks: IWork[];
@@ -7,6 +11,14 @@ interface IContactWorkHistoryProps {
 export default function ContactWorkHistory({
   contactWorks,
 }: IContactWorkHistoryProps) {
+  const [selectedWork, setSelectedWork] = useState<IWork | null>(null);
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
+
+  const handleWorkClick = (work: IWork) => {
+    setSelectedWork(work);
+    setIsDetailOpen(true);
+  };
+
   return (
     <div className="lg:col-span-2">
       <div className="rounded-xl border border-border bg-card">
@@ -28,10 +40,14 @@ export default function ContactWorkHistory({
                   new Date(a.startDate).getTime(),
               )
               .map((work) => (
-                <div key={work.id} className="px-6 py-5">
+                <div 
+                  key={work.id} 
+                  className="group px-6 py-5 hover:bg-muted/30 transition-colors cursor-pointer"
+                  onClick={() => handleWorkClick(work)}
+                >
                   <div className="flex items-start justify-between">
                     <div>
-                      <h3 className="text-sm font-semibold text-card-foreground">
+                      <h3 className="text-sm font-semibold text-card-foreground group-hover:text-primary transition-colors">
                         {work.title}
                       </h3>
                       <p className="mt-1 text-xs text-muted-foreground">
@@ -49,17 +65,20 @@ export default function ContactWorkHistory({
                       </span>
                     )}
                   </div>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground line-clamp-2">
                     {work.description}
                   </p>
-                  <div className="mt-3 border-l-2 border-border pl-3">
-                    <div className="h-1 w-1 rounded-full bg-muted-foreground" />
-                  </div>
                 </div>
               ))}
           </div>
         )}
       </div>
+
+      <WorkDetailModal 
+        work={selectedWork}
+        open={isDetailOpen}
+        onClose={() => setIsDetailOpen(false)}
+      />
     </div>
   );
 }
