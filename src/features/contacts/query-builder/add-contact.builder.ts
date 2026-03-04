@@ -1,6 +1,6 @@
 import { SupabaseClient } from '@supabase/supabase-js';
 
-export interface AddContactData {
+export interface AddContactInput {
   name: string;
   email: string;
   phone?: string;
@@ -9,10 +9,15 @@ export interface AddContactData {
   notes?: string;
 }
 
+export interface AddContactData extends AddContactInput {
+  user_id: string;
+}
+
 export const addContactQueryBuilder = (
   supabaseClient: SupabaseClient,
   data: AddContactData,
 ) => {
-  const query = supabaseClient.from('contacts').insert(data).select().single();
+  // .select().single()을 빼고 insert만 시도해봅니다.
+  const query = supabaseClient.from('contacts').insert(data);
   return query;
 };

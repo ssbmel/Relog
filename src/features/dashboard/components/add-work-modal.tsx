@@ -12,36 +12,49 @@ import {
 import { Input } from "@/src/components/ui/input";
 import { Label } from "@/src/components/ui/label";
 import { Textarea } from "@/src/components/ui/textarea";
-import { IWork } from "@/src/types/works";
-import React, { useState } from "react";
+import React, { useState, useTransition } from "react";
+import { addWorkAction } from "../../works/actions/add-work";
 
 export function AddWorkModal({
   open,
   onClose,
-  onSave,
+  contactId,
 }: {
   open: boolean;
   onClose: () => void;
-  onSave: (work: Omit<IWork, "id" | "contactId">) => void;
+  contactId?: string;
 }) {
+  const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState<string | null>(null);
+
   const [title, setTitle] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [description, setDescription] = useState("");
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    onSave({
-      title,
-      startDate,
-      endDate: endDate || null,
-      description,
+    setError(null);
+
+    startTransition(async () => {
+      const result = await addWorkAction({
+        title,
+        startDate: startDate,
+        endDate: endDate || null,
+        description,
+        contactId: contactId,
+      });
+
+      if (result.error) {
+        setError(result.error);
+      } else {
+        setTitle("");
+        setStartDate("");
+        setEndDate("");
+        setDescription("");
+        onClose();
+      }
     });
-    setTitle("");
-    setStartDate("");
-    setEndDate("");
-    setDescription("");
-    onClose();
   }
 
   return (
@@ -50,10 +63,15 @@ export function AddWorkModal({
         <DialogHeader>
           <DialogTitle>작업 추가</DialogTitle>
           <DialogDescription>
-            이 연락처와의 새로운 작업을 기록하세요. 모든 필드를 입력한 후 저장을 누르세요.
+            새로운 작업을 기록하세요. 모든 필드를 입력한 후 저장을 누르세요.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="grid gap-4 py-4">
+          {error && (
+            <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
+              {error}
+            </div>
+          )}
           <div className="grid gap-2">
             <Label htmlFor="work-title">작업명</Label>
             <Input
@@ -96,10 +114,12 @@ export function AddWorkModal({
             />
           </div>
           <DialogFooter className="mt-4">
-            <Button type="button" variant="outline" onClick={onClose}>
+            <Button type="button" variant="outline" onClick={onClose} disabled={isPending}>
               취소
             </Button>
-            <Button type="submit">작업 저장</Button>
+            <Button type="submit" disabled={isPending}>
+              {isPending ? "저장 중..." : "작업 저장"}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>
