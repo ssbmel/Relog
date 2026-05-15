@@ -33,7 +33,7 @@ const features = [
 
 export function FeaturesSection() {
   return (
-    <section className="relative border-t border-border px-6 py-28">
+    <section className="relative border-t border-border px-6 h-full flex flex-col justify-center">
       {/* 배경 */}
       <div className="pointer-events-none absolute inset-0 -z-10 bg-linear-to-b from-background via-secondary/30 to-background" />
 
